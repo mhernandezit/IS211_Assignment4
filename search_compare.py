@@ -1,35 +1,37 @@
+from __future__ import division
 import pprint
 import time
 import random
 
+
 def sequential_search(a_list, item):
 	pos = 0
 	found = False
-	start = time.now()
+	start = time.time()
 	while pos < len(a_list) and not found:
 		if a_list[pos] == item:
 			found = True
 		else:
 			pos = pos+1
-	return found, (time.now() - start)
+	return found, (time.time() - start)
 
 def ordered_sequential_search(a_list, item):
 	pos = 0
 	found = False
 	stop = False
-	start = time.now()
+	start = time.time()
 	while pos < len(a_list) and not found and not stop:
 		if a_list[pos] == item:
 			found = True
 		else:
 			if a_list[pos] > item:
 				stop = True
-		else:
-			pos = pos+1
-	return found, (time.now() - start)
+			else:
+				pos = pos+1
+	return found, (time.time() - start)
 
 def binary_search(a_list, item):
-	start = time.now()
+	start = time.time()
 	first = 0
 	last = len(a_list) - 1
 	found = False
@@ -40,9 +42,9 @@ def binary_search(a_list, item):
 		else:
 			if item < a_list[midpoint]:
 				last = midpoint - 1
-		else:
-			first = midpoint + 1
-	return found, (time.now() - start)
+			else:
+				first = midpoint + 1
+	return found, (time.time() - start)
 
 def recursive_binary_search(a_list, item):
 	if len(a_list) == 0:
@@ -58,14 +60,40 @@ def recursive_binary_search(a_list, item):
 			return recursive_binary_search(a_list[midpoint + 1:], item)
 
 def buildList(listSize):
-	return [random.randint(0, 1000) for r in xrange(listSize)]
+	return [random.randint(0, listSize) for r in xrange(listSize)]
 
-def runTests():
-	testResults = {'Sequential_Search': {'Total_Time': 0, 'Average_Time': 1},
-	'ordered_sequential_search': {'Total_Time': 0, 'Average_Time': 1},
-	'binary_search': {'Total_Time': 0, 'Average_Time': 1},
-	'recursive_binary_search': {'Total_Time': 0, 'Average_Time': 1}}
-	for x in xrange(100):
-		testList = buildList(500)
-		found, testResults['Sequential_Search']['Total_Time'] =  sequential_search(testList, -1)
-	
+def runTests(testSize, listSize):
+	testResults = {'Sequential Search': {'time': 0},
+	'Ordered Sequential Search': {'time': 0},
+	'Binary Search': {'time': 0},
+	'Recursive Binary Search': {'time': 0}}
+	for x in xrange(testSize):
+		testlist = buildList(listSize)
+		for k, v in testResults.items():
+			if k == 'Sequential Search':
+				list.sort(testlist)
+				testResults[k]['time'] += sequential_search(testlist, -1)[1]
+			if k == 'Ordered Sequential Search':
+				list.sort(testlist)
+				testResults[k]['time'] += ordered_sequential_search(testlist, -1)[1]
+			if k == 'Binary Search':
+				list.sort(testlist)
+				testResults[k]['time'] += binary_search(testlist, -1)[1]
+			if k == 'Recursive Binary Search':
+				list.sort(testlist)
+				rb = time.time()
+				recursive_binary_search(testlist, -1)
+				testResults[k]['time'] += time.time() - rb
+	for k, v in testResults.items():
+		print '{} took {} seconds to run, on average.'.format(k, v['time']/listSize)
+
+def main():
+	print 'Test 1, 500 item lists'
+	runTests(100, 500)
+	print 'Test 2, 1000 item lists'
+	runTests(100, 1000)
+	print 'Test 3, 10000 item lists'
+	runTests(100, 10000)
+
+if __name__ == '__main__':
+	main()
