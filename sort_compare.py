@@ -43,7 +43,9 @@ def python_sort(a_list):
     return end - start
 
 def buildList(listSize):
-    return [random.randint(0, listSize) for r in range(listSize)]
+    """ A random list builder """
+    randomList = random.sample(xrange(1, listSize+100), listSize)
+    return randomList
 
 def runTests(testSize, listSize):
     testResults = {'Insertion Sort': {'time': 0},
@@ -62,7 +64,7 @@ def runTests(testSize, listSize):
                 testResults[k]['time'] += python_sort(testlist)
     for k, v in testResults.items():
         average = v['time']/listSize
-        print '{} took {} seconds to run, on average.'.format(k, "%.6f" % average)
+        print '{} took {} seconds to run, on average.'.format(k, "%10.7f" % average)
 
 def main():
     print 'Test 1, 500 item lists'
