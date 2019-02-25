@@ -3,7 +3,6 @@ import pprint
 import time
 import random
 
-
 def sequential_search(a_list, item):
 	pos = 0
 	found = False
@@ -13,7 +12,8 @@ def sequential_search(a_list, item):
 			found = True
 		else:
 			pos = pos+1
-	return found, (time.time() - start)
+	end = time.time()
+	return found, (end - start)
 
 def ordered_sequential_search(a_list, item):
 	pos = 0
@@ -28,7 +28,8 @@ def ordered_sequential_search(a_list, item):
 				stop = True
 			else:
 				pos = pos+1
-	return found, (time.time() - start)
+	end = time.time()
+	return found, (end - start)
 
 def binary_search(a_list, item):
 	start = time.time()
@@ -44,15 +45,18 @@ def binary_search(a_list, item):
 				last = midpoint - 1
 			else:
 				first = midpoint + 1
-	return found, (time.time() - start)
+	end = time.time()
+	return found, (end - start)
 
 def recursive_binary_search(a_list, item):
+	start = time.time()
 	if len(a_list) == 0:
 		return False
 	else:
 		midpoint = len(a_list) // 2
 	if a_list[midpoint] == item:
 		return True
+		end = time.time()
 	else:
 		if item < a_list[midpoint]:
 			return recursive_binary_search(a_list[:midpoint], item)
@@ -71,7 +75,6 @@ def runTests(testSize, listSize):
 		testlist = buildList(listSize)
 		for k, v in testResults.items():
 			if k == 'Sequential Search':
-				list.sort(testlist)
 				testResults[k]['time'] += sequential_search(testlist, -1)[1]
 			if k == 'Ordered Sequential Search':
 				list.sort(testlist)
@@ -85,7 +88,8 @@ def runTests(testSize, listSize):
 				recursive_binary_search(testlist, -1)
 				testResults[k]['time'] += time.time() - rb
 	for k, v in testResults.items():
-		print '{} took {} seconds to run, on average.'.format(k, v['time']/listSize)
+		average = v['time']/listSize
+        print '{} took {} seconds to run, on average.'.format(k, "%.6f" % average)
 
 def main():
 	print 'Test 1, 500 item lists'
