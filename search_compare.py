@@ -125,6 +125,7 @@ def runTests(testSize, listSize):
                    'Ordered Sequential Search': {'time': 0},
                    'Binary Search': {'time': 0},
                    'Recursive Binary Search': {'time': 0}}
+
     for _ in xrange(testSize):
         testlist = buildList(listSize) # We are only going to build the random list once
         for key, value in testResults.items():
@@ -141,6 +142,7 @@ def runTests(testSize, listSize):
                 rbTime = time.time()
                 recursive_binary_search(testlist, -1)
                 testResults[key]['time'] += time.time() - rbTime
+
     for key, value in testResults.items():
         average = value['time']/listSize
         print '{} took {} seconds to run, on average.'.format(key, "%10.7f" % average)
@@ -152,7 +154,7 @@ def main():
     print 'Test 2, 1000 item lists'
     runTests(100, 1000)
     print 'Test 3, 10000 item lists'
-    #runTests(100, 10000)
+    runTests(100, 10000)
 
 if __name__ == '__main__':
     main()
